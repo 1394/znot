@@ -1,0 +1,12 @@
+{
+  "name": "znot",
+  "version": "1.0.0",
+  "description": "польская нотация для nodejs",
+  "main": "z.js",
+  "scripts": {
+    "test": "node tests/ztest.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
