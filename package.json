@@ -7,7 +7,8 @@
     "test": "node tests/ztest.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "dmitri.leto",
+  "email": "leto1394@gmail.com",
   "license": "ISC",
   "repository": {
     "type" : "git",

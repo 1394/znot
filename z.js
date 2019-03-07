@@ -1,3 +1,5 @@
+'use strict'
+
 const z = (fn, ...args) => {
   if (typeof fn === 'string') {
     if (z._getSysFn(fn)) {
