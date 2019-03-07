@@ -1,17 +1,28 @@
 {
   "name": "znot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "польская нотация для nodejs",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/ztest.js"
+    "test": "node tests/test.js"
   },
   "keywords": [],
   "author": "dmitri.leto",
   "email": "leto1394@gmail.com",
   "license": "ISC",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/1394/znot.git"
+    "type": "git",
+    "url": "https://github.com/1394/znot.git"
+  },
+  "dependencies": {
+    "@dmitri.leto/manipula": "^1.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
   }
 }
