@@ -1,7 +1,5 @@
 const z = require('./z.js')
 
-console.log(z)
-
 z.defns('utils', {
   required: [
     ['logging', (...args) => {
