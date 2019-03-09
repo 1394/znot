@@ -3,13 +3,11 @@ const disp = (txt, res) => {
   console.log(`${txt} ... Ok\n`)
 }
 
-const z = require('../index')
+const { z } = require('../index')
 
 const seeds = require('./seeds')
 
 const arr = [3, 5, 77, 23, 5, 887, 1, -4]
-
-// z('utils.logging', 'arr: ', arr)
 
 const result = z('map',
   z('sort', arr),
@@ -51,28 +49,19 @@ disp('get-in defValue', assert.deepStrictEqual(
   'defValue'
 ))
 
-z(z.then,
+z('catch',
+  // eslint-disable-next-line prefer-promise-reject-errors
+  Promise.reject({ error: 123 }),
+  (compared) => {
+    disp('promise.catch', assert.deepStrictEqual({ error: 123 }, compared))
+  }
+)
+
+z('then',
   Promise.resolve(123),
   (compared) => {
     disp('promise.then', assert.strictEqual(123, compared))
   }
 )
 
-const randomPromise = new Promise((resolve, reject) => {
-  const rnd = Math.random() * 10
-  rnd > 5 ? resolve(rnd) : reject(rnd)
-})
-
-const testPromise = z(z.then,
-  randomPromise,
-  (compared) => {
-    disp('promise.then', assert.true(compared > 5))
-  },
-  (compared) => {
-    disp('promise.catch', assert.true(compared <= 5))
-  }
-)
-
-// z(z.repcall, 20, z(z.then, testPromise))
-
-setTimeout(() => process.exit(0), 200)
+setTimeout(() => process.exit(0), 500)

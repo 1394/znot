@@ -1,15 +1,20 @@
-const z = require('./z.js')
-const util = require('util')
+const { z } = require('./z.js')
+const { format } = require('util')
+
+const debug = !!process.env.DEBUG
 
 const utils = z.defns({
   ns: 'utils',
   locals: {
-    debug: true
+    debug: debug
   }
 }, {
+  setDebug: (debug) => {
+    utils.$debug = debug
+  },
   logging: (...args) => {
     if (utils.$debug) {
-      console.log(' [log]', util.format(...args))
+      console.log(' [log]', format(...args))
     }
   },
   logdir: (depth, o) => {

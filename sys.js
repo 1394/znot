@@ -1,3 +1,7 @@
+const { object: mO, array: mA } = require('@dmitri.leto/manipula')
+
+const _isPromise = p => p && typeof p.then === 'function' && typeof p.catch === 'function' && typeof p.finally === 'function'
+
 const reduce = Function.bind.call(Function.call, Array.prototype.reduce)
 const concat = (...args) => {
   args.reduce((acc, arg) => {
@@ -70,5 +74,24 @@ const dowhile = (fn, cb) => {
 module.exports = {
   dowhile,
   iftrue,
-  catch: (p, fn) => p.catch(fn)
+  catch: (p, fn) => p.catch(fn),
+  sort,
+  map,
+  filter,
+  keys,
+  vals,
+  entries,
+  get,
+  'get-in': getIn,
+  getIn,
+  'assoc-in': assocIn,
+  assocIn,
+  repeat,
+  repcall,
+  push,
+  find,
+  then,
+  split,
+  reduce,
+  concat
 }
