@@ -9,9 +9,6 @@ const z = function (fn, ...args) {
     if (z._sysns.get(fn)) {
       return z(z._sysns.get(fn), ...args)
     }
-    // if (z._getNsFn(fn)) {
-    //   return z(z._getNsFn(fn), ...args)
-    // }
     throw new Error(`error: fn [${fn}] not exist`)
   }
   if (typeof fn === 'function') {
@@ -24,7 +21,13 @@ const z = function (fn, ...args) {
 z._isPromise = p => p && typeof p.then === 'function' && typeof p.catch === 'function' && typeof p.finally === 'function'
 
 // namespaces
-const namespaces = { system: Namespace('system') }
+const namespaces = {
+  system: Namespace({
+    ns: 'system'
+  }, {
+
+  })
+}
 z._sysns = namespaces.system
 
 z.ns = new Proxy(namespaces, {
@@ -77,74 +80,74 @@ z.defn = (ns, fnName, fn) => {
 }
 
 // sysdefn
-z._sysdefn('reduce', Function.bind.call(Function.call, Array.prototype.reduce))
-z._sysdefn('concat', (...args) => {
-  args.reduce((acc, arg) => {
-    const argt = typeof arg
-    if (argt === 'string') {
-      acc.concat(arg.split(''))
-      return acc
-    }
-    if (argt === 'number' || argt === 'object') {
-      acc.push(arg)
-      return acc
-    }
-    if (Array.isArray(arg)) {
-      acc.push(arg)
-      return acc
-    }
-  }, [])
-})
-z._sysdefn('sort', (arr, fn) => fn ? arr.sort(fn) : arr.sort())
-z._sysdefn('map', (arr, fn) => arr.map(fn))
-z._sysdefn('filter', Function.bind.call(Function.call, Array.prototype.filter))
-z._sysdefn('find', Function.bind.call(Function.call, Array.prototype.find))
-z._sysdefn('split', Function.bind.call(Function.call, String.prototype.split))
+// z._sysdefn('reduce', Function.bind.call(Function.call, Array.prototype.reduce))
+// z._sysdefn('concat', (...args) => {
+//   args.reduce((acc, arg) => {
+//     const argt = typeof arg
+//     if (argt === 'string') {
+//       acc.concat(arg.split(''))
+//       return acc
+//     }
+//     if (argt === 'number' || argt === 'object') {
+//       acc.push(arg)
+//       return acc
+//     }
+//     if (Array.isArray(arg)) {
+//       acc.push(arg)
+//       return acc
+//     }
+//   }, [])
+// })
+// z._sysdefn('sort', (arr, fn) => fn ? arr.sort(fn) : arr.sort())
+// z._sysdefn('map', (arr, fn) => arr.map(fn))
+// z._sysdefn('filter', Function.bind.call(Function.call, Array.prototype.filter))
+// z._sysdefn('find', Function.bind.call(Function.call, Array.prototype.find))
+// z._sysdefn('split', Function.bind.call(Function.call, String.prototype.split))
 
-z._sysdefn('keys', map => Object.keys(map))
-z._sysdefn('vals', map => Object.values(map))
-z._sysdefn('entries', map => Object.entries(map))
-z._sysdefn('get', (map, prop, defValue) => map.hasOwnProperty(prop) ? (map[prop] || defValue) : defValue)
-z._sysdefn('get-in', (map, path, defValue) => mO.get(map, path, defValue))
-z._sysdefn('assoc-in', (map, path, defValue) => mO.concat(map, path, defValue))
-z._sysdefn('then', (p, fn, catchFn) => catchFn ? p.then(fn).catch(catchFn) : p.then(fn))
-z._sysdefn('catch', (p, fn) => p.catch(fn))
+// z._sysdefn('keys', map => Object.keys(map))
+// z._sysdefn('vals', map => Object.values(map))
+// z._sysdefn('entries', map => Object.entries(map))
+// z._sysdefn('get', (map, prop, defValue) => map.hasOwnProperty(prop) ? (map[prop] || defValue) : defValue)
+// z._sysdefn('get-in', (map, path, defValue) => mO.get(map, path, defValue))
+// z._sysdefn('assoc-in', (map, path, defValue) => mO.concat(map, path, defValue))
+// z._sysdefn('then', (p, fn, catchFn) => catchFn ? p.then(fn).catch(catchFn) : p.then(fn))
+// z._sysdefn('catch', (p, fn) => p.catch(fn))
 
-z._sysdefn('repeat', function * (arg1, arg2) {
-  if (arg2) {
-    const locals = { n: 0 }
-    while (locals.n < arg1) {
-      yield arg2
-      locals.n++
-    }
-  } else {
-    while (true) {
-      yield arg1
-    }
-  }
-})
+// z._sysdefn('repeat', function * (arg1, arg2) {
+//   if (arg2) {
+//     const locals = { n: 0 }
+//     while (locals.n < arg1) {
+//       yield arg2
+//       locals.n++
+//     }
+//   } else {
+//     while (true) {
+//       yield arg1
+//     }
+//   }
+// })
 
-z._sysdefn('repcall', (count, fn, ...args) => {
-  for (let i = 0; i < count; i++) { fn(...args) }
-})
+// z._sysdefn('repcall', (count, fn, ...args) => {
+//   for (let i = 0; i < count; i++) { fn(...args) }
+// })
 
-z._sysdefn('push', (arr, el) => arr.push(el))
+// z._sysdefn('push', (arr, el) => arr.push(el))
 
-z._sysdefn('iftrue', (pred, fn) => {
-  return !!fn()
-})
+// z._sysdefn('iftrue', (pred, fn) => {
+//   return !!fn()
+// })
 
-z._sysdefn('dowhile', (fn, cb) => {
-  const state = {}
-  do {
-    state.result = fn()
-    if (state.result) {
-      state.last = state.result
-      cb && cb(state.result)
-    }
-  } while (state.result)
-  return state.last
-})
+// z._sysdefn('dowhile', (fn, cb) => {
+//   const state = {}
+//   do {
+//     state.result = fn()
+//     if (state.result) {
+//       state.last = state.result
+//       cb && cb(state.result)
+//     }
+//   } while (state.result)
+//   return state.last
+// })
 
 const znot = new Proxy(z, {
   set: (target, prop, value) => {
