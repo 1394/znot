@@ -1,6 +1,6 @@
 const assert = require('assert')
 const disp = (txt, res) => {
-  console.log(`${txt} ... Ok\n`);
+  console.log(`${txt} ... Ok\n`)
 }
 
 const z = require('../index')
@@ -16,7 +16,7 @@ const result = z('map',
   el => `el: ${el}`
 )
 
-disp('result: sort and templating each el of array', assert.deepEqual(result,[ 'el: -4',
+disp('result: sort and templating each el of array', assert.deepStrictEqual(result, [ 'el: -4',
   'el: 1',
   'el: 23',
   'el: 3',
@@ -34,19 +34,19 @@ const result1 = z('map',
   )
 )
 
-disp('result1 by split el and parseInt last of split', assert.deepEqual(result1, [ -4, 1, 23, 3, 5, 5, 77, 887 ]))
+disp('result1 by split el and parseInt last of split', assert.deepStrictEqual(result1, [ -4, 1, 23, 3, 5, 5, 77, 887 ]))
 
-disp('get-in by path as array', assert.deepEqual(
+disp('get-in by path as array', assert.deepStrictEqual(
   z('get-in', seeds.src, ['a', 'b', 'd', 'e']),
   '234'
 ))
 
-disp('get-in by path as string', assert.deepEqual(
+disp('get-in by path as string', assert.deepStrictEqual(
   z('get-in', seeds.src, 'a.b.d.e'),
   '234'
 ))
 
-disp('get-in defValue', assert.deepEqual(
+disp('get-in defValue', assert.deepStrictEqual(
   z('get-in', seeds.src, 'a.b.d.e.eee', 'defValue'),
   'defValue'
 ))
@@ -54,7 +54,7 @@ disp('get-in defValue', assert.deepEqual(
 z(z.then,
   Promise.resolve(123),
   (compared) => {
-    disp('promise.then', assert.equal(123, compared))
+    disp('promise.then', assert.strictEqual(123, compared))
   }
 )
 
@@ -73,6 +73,6 @@ const testPromise = z(z.then,
   }
 )
 
-z(z.repcall, 20, z(z.then, testPromise))
+// z(z.repcall, 20, z(z.then, testPromise))
 
 setTimeout(() => process.exit(0), 200)
