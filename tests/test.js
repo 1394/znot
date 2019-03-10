@@ -3,7 +3,15 @@ const disp = (txt, res) => {
   console.log(`${txt} ... Ok\n`)
 }
 
-const { z } = require('../index')
+const { z, ns } = require('../index')
+
+const str = ns.str
+
+// const test = z.defns({
+//   ns: 'tests'
+// }, {
+//   str: ns.str
+// })
 
 const seeds = require('./seeds')
 
@@ -13,6 +21,11 @@ const result = z('map',
   z('sort', arr),
   el => `el: ${el}`
 )
+
+disp('string split', assert.deepStrictEqual(
+  z(str.split, 'q.w.e.r.t.y', '.'),
+  ['q', 'w', 'e', 'r', 't', 'y']
+))
 
 disp('result: sort and templating each el of array', assert.deepStrictEqual(result, [ 'el: -4',
   'el: 1',
