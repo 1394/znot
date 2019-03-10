@@ -129,7 +129,31 @@ const assoc = (obj, ...args) => {
   return res
 }
 
+const get = (obj, ...args) => {
+  if ((Array.isArray(obj) || typeof obj === 'string') && obj.length) {
+    if (args.length === 1) {
+      return obj[args[0]]
+    } else {
+      return args.reduce((acc, n) => {
+        acc.push(obj[n])
+        return acc
+      }, [])
+    }
+  }
+  if (typeof obj === 'object') {
+    if (args.length === 1) {
+      return obj[args[0]]
+    } else {
+      return args.reduce((acc, n) => {
+        acc[n] = obj[n]
+        return acc
+      }, {})
+    }
+  }
+}
+
 const sys = {
+  get,
   assoc,
   isEven,
   isOdd,
