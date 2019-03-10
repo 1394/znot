@@ -6,8 +6,8 @@ const debug = !!process.env.DEBUG
 const utils = z.defns({
   ns: 'utils',
   locals: {
-    debug: debug
-  }
+    debug: debug,
+  },
 }, {
   setDebug: (debug) => {
     utils.$debug = debug
@@ -21,5 +21,5 @@ const utils = z.defns({
     if (utils.$debug) {
       console.dir(o, { depth })
     }
-  }
+  },
 })

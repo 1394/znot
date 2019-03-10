@@ -58,7 +58,17 @@ const dowhile = (fn, cb) => {
   return state.last
 }
 
+const length = (obj) => {
+  if (Array.isArray(obj) || typeof obj === 'string') {
+    return obj.length
+  }
+  if (typeof obj === 'object') {
+    return Object.keys(obj).length
+  }
+}
+
 const sys = {
+  length,
   dowhile,
   iftrue,
   catch: (p, fn) => p.catch(fn),
@@ -66,7 +76,7 @@ const sys = {
   repcall,
   then,
   split,
-  concat
+  concat,
 }
 
 Object.assign(sys, require('./sys/object'))

@@ -8,6 +8,7 @@ module.exports = (opts, init) => {
   }
   const namespace = new Map(Object.entries(init).filter(([name]) => name !== LocalsPropName))
   namespace.set('_ns', ns)
+  namespace.set('_keys', Object.keys(init))
   // make namespace 'locals' object
   if (locals && typeof locals === 'object' && !Array.isArray(locals)) {
     namespace.set(LocalsPropName, Object.keys(locals).reduce((acc, prop) => {
@@ -19,10 +20,23 @@ module.exports = (opts, init) => {
   }
 
   const setProp = (prop, value) => {
-    const locals = namespace.get(LocalsPropName)
-    locals[prop] = value
-    namespace.set(LocalsPropName, locals)
+    if (prop.startsWith('$')) {
+      const locals = namespace.get(LocalsPropName)
+      locals[prop] = value
+      namespace.set(LocalsPropName, locals)
+      return true
+    } else {
+      console.error(`local variable name ${ns}.${prop} must be started with $`)
+      return false
+    }
   }
+
+  namespace.set('let', (k, v, fn) => {
+    setProp(k, v)
+    if (typeof fn === 'function') {
+      return fn(v)
+    }
+  })
 
   return new Proxy(namespace, {
     get: (O, prop) => {
@@ -44,13 +58,7 @@ module.exports = (opts, init) => {
       }
     },
     set: (O, localProp, value) => {
-      if (!localProp.startsWith('$')) {
-        console.error(`local var ${localProp} is not existed in namespace ${ns}`)
-        return false
-      } else {
-        setProp(localProp, value)
-        return true
-      }
-    }
+      return setProp(localProp, value)
+    },
   })
 }

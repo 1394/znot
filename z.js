@@ -22,14 +22,14 @@ const sysInit = require('./sys')
 
 const namespaces = {
   system: Namespace({
-    ns: 'system'
-  }, sysInit)
+    ns: 'system',
+  }, sysInit),
 }
 
 const ns = new Proxy(namespaces, {
   set: (target, prop, value) => {
     return false
-  }
+  },
 })
 
 z.defns = (nsdefs, opts) => {
@@ -49,7 +49,7 @@ module.exports = {
         return O.defns
       }
       return ns.system[prop]
-    }
+    },
   }),
-  ns
+  ns,
 }

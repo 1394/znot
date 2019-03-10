@@ -34,7 +34,7 @@ disp('result: sort and templating each el of array', assert.deepStrictEqual(resu
   'el: 5',
   'el: 5',
   'el: 77',
-  'el: 887'
+  'el: 887',
 ]))
 
 const result1 = z('map',

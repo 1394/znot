@@ -1,7 +1,7 @@
 const { z, ns } = require('./index')
 
 const ideas = z.defns({
-  ns: 'ideas'
+  ns: 'ideas',
 }, {
   log: ns.utils,
   whileMore7: function (val) {
@@ -10,7 +10,7 @@ const ideas = z.defns({
       z(ideas.log.logging, { rnd, val, pred: rnd > val })
       return rnd > val
     })
-  }
+  },
 })
 
 console.log(z(ideas.whileMore7, 7))
