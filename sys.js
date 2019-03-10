@@ -67,7 +67,78 @@ const length = (obj) => {
   }
 }
 
+const cond = (...args) => {
+  const fn = args.find(([pred, fn, ...args]) => {
+    if (typeof pred === 'object' && pred.else) {
+      return true
+    }
+    return pred
+  })
+  if (fn) {
+    return fn(...args)
+  }
+}
+
+const first = (obj) => {
+  if (typeof obj === 'string' || Array.isArray(obj)) {
+    return obj[0]
+  }
+  return obj
+}
+
+const last = (obj) => {
+  if (typeof obj === 'string' || Array.isArray(obj)) {
+    return obj[obj.length - 1]
+  }
+  return obj
+}
+
+const isEven = (n) => !(n % 2)
+const isOdd = (n) => !!(n % 2)
+
+const next = (obj) => {
+  if (typeof obj === 'string' || Array.isArray(obj)) {
+    return obj.slice(1)
+  }
+  return obj
+}
+
+const splitAt = (arr, n, defval) => {
+  if (Array.isArray(arr) && arr.length) {
+    const res = []
+    let i = 0
+    while (arr.length > i) {
+      let el = arr.slice(i, i + n)
+      if (el.length < n && defval) {
+        el = el.concat(Array(n - el.length).fill(defval))
+      }
+      res.push(el)
+      i = i + n
+    }
+    return res
+  }
+}
+
+const assoc = (obj, ...args) => {
+  const res = Object.assign({}, obj)
+  splitAt(args, 2).forEach(([k, v]) => {
+    if (typeof v !== 'undefined') {
+      res[k] = v
+    }
+  })
+  return res
+}
+
 const sys = {
+  assoc,
+  isEven,
+  isOdd,
+  'even?': isEven,
+  'odd?': isOdd,
+  first,
+  last,
+  next,
+  cond,
   length,
   dowhile,
   iftrue,

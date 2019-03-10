@@ -1,4 +1,5 @@
 const LocalsPropName = '__$locals'
+const _isPromise = p => p && typeof p.then === 'function' && typeof p.catch === 'function' && typeof p.finally === 'function'
 
 module.exports = (opts, init) => {
   const { ns, locals } = opts
@@ -34,7 +35,24 @@ module.exports = (opts, init) => {
   namespace.set('let', (k, v, fn) => {
     setProp(k, v)
     if (typeof fn === 'function') {
+      if (_isPromise(fn)) {
+        return fn(v).finally(() => setProp(k, undefined))
+      } else {
+        const result = fn(v)
+        setProp(k, undefined)
+        return result
+      }
+    }
+  })
+
+  namespace.set('iflet', (k, v, fn, elseFn) => {
+    setProp(k, v)
+    if (typeof fn === 'function' && v) {
       return fn(v)
+    } else {
+      if (!v && typeof elseFn === 'function') {
+        return elseFn(v)
+      }
     }
   })
 
