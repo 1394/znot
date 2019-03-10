@@ -2,11 +2,6 @@ const { z } = require('./z')
 
 function getAllMethodNames (obj) {
   const methods = Object.getOwnPropertyNames(obj)
-  // let methods = new Set()
-  // while (obj = Reflect.getPrototypeOf(obj)) {
-  //   let keys = Reflect.ownKeys(obj)
-  //   keys.forEach((k) => methods.add(k))
-  // }
   return methods
 }
 
@@ -15,7 +10,11 @@ const getInstanceMethods = (obj, ns) => {
   const methods = {}
   props.forEach(prop => {
     if (typeof obj[prop] === 'function') {
-      methods[prop] = (obj, ...args) => obj[prop](...args)
+      methods[prop] = function (...args) {
+        const obj = args.pop()
+        const fn = Function.bind.call(Function.call, Object.getPrototypeOf(obj)[prop])
+        return fn(obj, ...args)
+      }
     } else {
       methods[prop] = (obj) => obj[prop]
     }
@@ -28,9 +27,11 @@ const getClassMethods = (cls) => {
   const methods = {}
   props.forEach(prop => {
     if (typeof cls[prop] === 'function') {
-      methods[prop] = (obj, ...args) => cls[prop](obj)
-    } else {
-      methods[prop] = (obj) => obj[prop]
+      methods[prop] = function (...args) {
+        return cls[prop](args.pop(), ...args)
+      }
+    // } else {
+    //   methods[prop] = (obj) => obj[prop]
     }
   })
   return methods

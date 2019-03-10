@@ -42,6 +42,14 @@ z.defns = (nsdefs, opts) => {
 }
 
 module.exports = {
-  z,
+  z: new Proxy(z, {
+    set: () => false,
+    get: (O, prop) => {
+      if (prop === 'defns') {
+        return O.defns
+      }
+      return ns.system[prop]
+    }
+  }),
   ns
 }

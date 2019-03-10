@@ -20,7 +20,9 @@ const concat = (...args) => {
 
 const split = Function.bind.call(Function.call, String.prototype.split)
 
-const then = (p, fn, catchFn) => catchFn ? p.then(fn).catch(catchFn) : p.then(fn)
+const then = (p, fn, catchFn) => {
+  return catchFn ? p.then(fn).catch(catchFn) : p.then(fn)
+}
 
 const repeat = function * (arg1, arg2) {
   if (arg2) {
@@ -40,8 +42,8 @@ const repcall = (count, fn, ...args) => {
   for (let i = 0; i < count; i++) { fn(...args) }
 }
 
-const iftrue = (pred, fn) => {
-  return !!fn()
+const iftrue = (val) => {
+  return !!val
 }
 
 const dowhile = (fn, cb) => {
