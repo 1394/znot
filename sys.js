@@ -140,6 +140,9 @@ const assoc = (obj, ...args) => {
 }
 
 const get = (obj, ...args) => {
+  if (args.length === 1 && Array.isArray(args[0]) && args[0].length) {
+    args = args[0]
+  }
   if ((Array.isArray(obj) || typeof obj === 'string') && obj.length) {
     if (args.length === 1) {
       return obj[args[0]]
@@ -162,11 +165,28 @@ const get = (obj, ...args) => {
   }
 }
 
+const chain = (args, obj) => {
+  return args.reduce((acc, [method, ...values]) => {
+    if (['object', 'function'].includes(typeof acc) && acc[method] && typeof acc[method] === 'function') {
+      acc = acc[method](...values)
+      return acc
+    } else {
+      if (acc.hasOwnProperty(method)) {
+        return acc[method]
+      } else {
+        const error = `error chain call with method [${method}]`
+        throw new Error(error)
+      }
+    }
+  }, obj)
+}
+
 // eslint-disable-next-line no-new-func
 const fn = (...args) => new Function(...args)
 const bind = (fn, scope) => fn.bind(scope)
 
 const sys = {
+  chain,
   fn,
   bind,
   get,
@@ -197,7 +217,7 @@ const sys = {
   ne,
 }
 
-Object.assign(sys, require('./sys/object'))
-Object.assign(sys, require('./sys/array'))
+// Object.assign(sys, require('./sys/object'))
+// Object.assign(sys, require('./sys/array'))
 
 module.exports = sys
