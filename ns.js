@@ -10,6 +10,7 @@ module.exports = (opts, init) => {
   const namespace = new Map(Object.entries(init).filter(([name]) => name !== LocalsPropName))
   namespace.set('_ns', ns)
   namespace.set('_keys', Object.keys(init))
+  namespace.set('_has', (name) => namespace.has(name))
   // make namespace 'locals' object
   if (locals && typeof locals === 'object' && !Array.isArray(locals)) {
     namespace.set(LocalsPropName, Object.keys(locals).reduce((acc, prop) => {
@@ -71,6 +72,11 @@ module.exports = (opts, init) => {
       if (O.has(prop)) {
         return O.get(prop)
       } else {
+        if (prop === 'inspect') {
+          // console.log('reflect to inspect method', O.get('_keys'))
+          // return JSON.stringify(O)
+          return O.toString()
+        }
         // console.error(`namespace.${ns} error: function [${prop}] is not exist`)
         const error = `namespace.${ns} error: function [${prop}] is not exist`
         throw new Error(error)

@@ -20,5 +20,5 @@ module.exports = {
   pop,
   reduce,
   indexby,
-  groupby
+  groupby,
 }

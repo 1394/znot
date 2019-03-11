@@ -1,4 +1,4 @@
-const { z, ns } = require('./index')
+const { z, za, ns } = require('./index')
 
 const ideas = z.defns({
   ns: 'ideas',
@@ -13,4 +13,13 @@ const ideas = z.defns({
   },
 })
 
-console.log(z(ideas.whileMore7, 7))
+// console.log('ns', array)
+
+const run2 = za([
+  'array.map',
+  [za, 'fn', 'el', 'idx', 'return idx+":"+el'],
+  'kjwqdlknqflqlwf'.split(''),
+])
+
+console.log(run2)
+// console.log(z(ideas.whileMore7, 7))

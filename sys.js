@@ -24,6 +24,8 @@ const then = (p, fn, catchFn) => {
   return catchFn ? p.then(fn).catch(catchFn) : p.then(fn)
 }
 
+const promiseAll = (arr) => Promise.all(arr)
+
 const repeat = function * (arg1, arg2) {
   if (arg2) {
     const locals = { n: 0 }
@@ -160,7 +162,13 @@ const get = (obj, ...args) => {
   }
 }
 
+// eslint-disable-next-line no-new-func
+const fn = (...args) => new Function(...args)
+const bind = (fn, scope) => fn.bind(scope)
+
 const sys = {
+  fn,
+  bind,
   get,
   assoc,
   isEven,
@@ -178,6 +186,7 @@ const sys = {
   repeat,
   repcall,
   then,
+  promiseAll,
   split,
   concat,
   gt,

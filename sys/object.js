@@ -15,5 +15,5 @@ module.exports = {
   assocIn,
   'get-in': getIn,
   'assoc-in': assocIn,
-  entries
+  entries,
 }
