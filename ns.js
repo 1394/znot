@@ -54,6 +54,7 @@ module.exports = (opts, init) => {
         return elseFn(v)
       }
     }
+    return !!v
   })
 
   return new Proxy(namespace, {

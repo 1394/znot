@@ -58,14 +58,22 @@ const dowhile = (fn, cb) => {
   return state.last
 }
 
-const length = (obj) => {
+const count = (obj) => {
   if (Array.isArray(obj) || typeof obj === 'string') {
     return obj.length
   }
   if (typeof obj === 'object') {
     return Object.keys(obj).length
   }
+  return 0
 }
+
+const gt = (a, b) => a > b
+const ge = (a, b) => a >= b
+const lt = (a, b) => a < b
+const le = (a, b) => a <= b
+const eq = (a, b) => a === b
+const ne = (a, b) => a !== b
 
 const cond = (...args) => {
   const fn = args.find(([pred, fn, ...args]) => {
@@ -163,7 +171,7 @@ const sys = {
   last,
   next,
   cond,
-  length,
+  count,
   dowhile,
   iftrue,
   catch: (p, fn) => p.catch(fn),
@@ -172,6 +180,12 @@ const sys = {
   then,
   split,
   concat,
+  gt,
+  ge,
+  lt,
+  le,
+  eq,
+  ne,
 }
 
 Object.assign(sys, require('./sys/object'))
