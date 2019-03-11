@@ -13,6 +13,11 @@ importClass(Array, 'array', {
   },
 })
 importClass(Object, 'obj')
+importClass(Promise, 'promise', {
+  then: (p, fn, catchFn) => {
+    return catchFn ? p.then(fn).catch(catchFn) : p.then(fn)
+  },
+})
 
 require('./utils')
 

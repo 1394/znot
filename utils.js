@@ -1,7 +1,7 @@
 const { z } = require('./z.js')
 const { format } = require('util')
 
-const debug = !!process.env.DEBUG
+const debug = !!(process.env.NODE_ENV !== 'production')
 
 const utils = z.defns({
   ns: 'utils',
