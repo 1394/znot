@@ -85,6 +85,8 @@ const za = function (args) {
     return fn(...args)
   }
 }
+
+// уникальный признак объекта для парсинга цепочки аргументов
 za.__za_fn = true
 
 module.exports = {
