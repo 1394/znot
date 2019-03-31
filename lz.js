@@ -31,18 +31,18 @@ class Lz {
     if (typeof arg === 'function') {
       const iterable = arg()
       if (gen.isIterable(iterable)) {
-        this.value = iterable
+        this.iterable = iterable
         this.type = arg.type || 'array'
         return this
       }
     }
     if (Array.isArray(arg)) {
-      this.value = gen.arr(arg)
+      this.iterable = gen.arr(arg)
       this.type = 'array'
       return this
     }
-    if (typeof arg === 'object' && !this.value) {
-      this.value = gen.obj(arg)
+    if (typeof arg === 'object' && !this.iterable) {
+      this.iterable = gen.obj(arg)
       this.keys = Object.keys(arg)
       this.type = 'object'
       return this
@@ -53,7 +53,7 @@ class Lz {
   map (fn) {
     const me = this
     const res = function * () {
-      for (let el of me.value) {
+      for (let el of me.iterable) {
         yield fn(el)
       }
     }
@@ -64,7 +64,7 @@ class Lz {
   mapvals (fn) {
     const me = this
     const res = function * () {
-      for (let el of me.value) {
+      for (let el of me.iterable) {
         const [k, v] = Object.entries(el)[0]
         yield { [k]: fn(v) }
       }
@@ -76,7 +76,7 @@ class Lz {
   mapkeys (fn) {
     const me = this
     const res = function * () {
-      for (let el of me.value) {
+      for (let el of me.iterable) {
         const [k, v] = Object.entries(el)
         yield { [fn(k)]: v }
       }
@@ -88,7 +88,7 @@ class Lz {
   filter (fn) {
     const me = this
     const res = function * () {
-      for (let el of me.value) {
+      for (let el of me.iterable) {
         if (fn(el)) {
           yield el
         }
@@ -101,7 +101,7 @@ class Lz {
   find (fn) {
     const me = this
     const res = function * () {
-      for (let el of me.value) {
+      for (let el of me.iterable) {
         if (fn(el)) {
           yield el
           break
@@ -116,7 +116,7 @@ class Lz {
     const me = this
     const iterable = function * () {
       let idx = 0
-      for (let el of me.value) {
+      for (let el of me.iterable) {
         if (idx < size) {
           yield el
           idx++
@@ -130,7 +130,7 @@ class Lz {
   }
 
   forEach (fn) {
-    for (let el of this.value) {
+    for (let el of this.iterable) {
       fn(el)
     }
   }
@@ -138,14 +138,14 @@ class Lz {
   value () {
     if (this.type === 'array') {
       let result = []
-      for (let el of this.value) {
+      for (let el of this.iterable) {
         result.push(el)
       }
       return result
     }
     if (this.type === 'object') {
       let result = {}
-      for (let el of this.value) {
+      for (let el of this.iterable) {
         Object.assign(result, el)
       }
       return result
@@ -157,7 +157,7 @@ class Lz {
   }
 
   range (from, to, step) {
-    this.value = gen.range(from, to, step)
+    this.iterable = gen.range(from, to, step)
     return this
   }
 }
