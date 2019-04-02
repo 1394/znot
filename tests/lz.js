@@ -1,6 +1,6 @@
 const Lz = require('../lz')
 
-const memoryUsage = function * () { while (true) { yield process.memoryUsage() } }
+const memoryUsage = Lz.seq(process.memoryUsage)
 
 const r = new Lz(memoryUsage)
 r.map(val => {

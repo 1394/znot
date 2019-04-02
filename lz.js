@@ -50,6 +50,14 @@ class Lz {
     throw new Error('[error] unsupported argument type!')
   }
 
+  static seq (fn) {
+    return function * () {
+      while (true) {
+        yield fn()
+      }
+    }
+  }
+
   map (fn) {
     const me = this
     const res = function * () {
