@@ -50,6 +50,10 @@ class Lz {
     throw new Error('[error] unsupported argument type!')
   }
 
+  static range (...args) {
+    return gen.range(...args)
+  }
+
   static seq (fn) {
     return function * () {
       while (true) {
