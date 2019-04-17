@@ -172,6 +172,19 @@ class Lz {
     this.iterable = gen.range(from, to, step)
     return this
   }
+
+  first () {
+    if (!this.iterable) {
+      return
+    }
+    const { value, done } = this.iterable.next()
+    return done ? false : value
+  }
+
+  next () {
+    this.first()
+    return [...this.iterable]
+  }
 }
 
 module.exports = Lz
