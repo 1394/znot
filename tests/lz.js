@@ -1,4 +1,4 @@
-const Lz = require('../lz')
+const Lz = require('lz')
 
 const memoryUsage = Lz.seq(process.memoryUsage)
 

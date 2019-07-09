@@ -15,7 +15,8 @@
     "url": "https://github.com/1394/znot.git"
   },
   "dependencies": {
-    "@dmitri.leto/manipula": "^1.0.4"
+    "@dmitri.leto/manipula": "^1.0.4",
+    "lz": "git+https://git@github.com/1394/lz.git"
   },
   "devDependencies": {
     "eslint": "^5.15.1",
